@@ -1,12 +1,18 @@
-# email_agent_api.py
-from flask import Flask, request, jsonify
-from summarize_tool import simple_summary
+import sys
+import json
 
-app = Flask(__name__)
+def simple_summary(text):
+    if not text.strip():
+        return "אין תוכן לסיכום."
+    
+    # מחזיר תקציר פשוט – התחלה של הטקסט (עד 120 תווים)
+    return f"Summary: {text[:120].strip()}..."
 
-@app.route('/summarize_text', methods=['POST'])
-def summarize():
-    data = request.get_json()
-    text = data.get("text", "")
-    summary = simple_summary(text)
-    return jsonify({"summary": summary})
+if __name__ == '__main__':
+    try:
+        inputs = json.load(sys.stdin)
+        text = inputs.get("text", "")
+        summary = simple_summary(text)
+        print(json.dumps({"summary": summary}))
+    except Exception as e:
+        print(json.dumps({"error": str(e)}))
