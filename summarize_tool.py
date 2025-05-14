@@ -4,8 +4,16 @@ import json
 import openai
 import os
 
+# Debug: check if API key is loaded
+api_key = os.getenv("OPENAI_API_KEY")
+if not api_key:
+    print("❌ OPENAI_API_KEY not found in environment.", file=sys.stderr)
+    raise EnvironmentError("Missing OPENAI_API_KEY environment variable")
+else:
+    print(f"✅ OPENAI_API_KEY loaded: {api_key[:8]}...", file=sys.stderr)
+
 # Initialize OpenAI client (for openai>=1.0.0)
-client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+client = openai.OpenAI(api_key=api_key)
 
 def gpt_summary(text):
     if not text.strip():
