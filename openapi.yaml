@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Gmail Agent Tools
-  version: 1.0.0
+  version: 1.0.1
 servers:
   - url: https://gmail-agent.onrender.com
 
@@ -19,6 +19,15 @@ paths:
       responses:
         '200':
           description: Email sent successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message_id:
+                    type: string
+                  status:
+                    type: string
 
   /validate_email:
     post:
@@ -33,6 +42,13 @@ paths:
       responses:
         '200':
           description: Validation result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  valid:
+                    type: boolean
 
   /summarize_text:
     post:
@@ -47,6 +63,13 @@ paths:
       responses:
         '200':
           description: Summary result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  summary:
+                    type: string
 
 components:
   schemas:
@@ -57,28 +80,3 @@ components:
         to:
           type: string
           description: The recipient's email address
-        subject:
-          type: string
-          description: The subject line of the email
-        body:
-          type: string
-          description: The content of the email
-        attachment_path:
-          type: string
-          description: Optional path to a file to attach
-
-    ValidateEmailRequest:
-      type: object
-      required: [email]
-      properties:
-        email:
-          type: string
-          description: Email address to validate
-
-    SummarizeTextRequest:
-      type: object
-      required: [text]
-      properties:
-        text:
-          type: string
-          description: Text to be summarized
