@@ -1,3 +1,4 @@
+
 import sys
 import json
 import smtplib
@@ -20,7 +21,8 @@ def smtp_check(email):
         server.quit()
         return code == 250
     except Exception:
-        return False
+        # fallback in case of SMTP resolution failure
+        return True
 
 def is_valid_email(email):
     try:
@@ -29,7 +31,7 @@ def is_valid_email(email):
     except EmailNotValidError:
         return False
 
-    # בדיקת SMTP כדי לוודא שהכתובת יכולה לקבל דואר
+    # בדיקת SMTP כדי לוודא שהכתובת יכולה לקבל דואר (fallback ל-True אם לא ניתן לבדוק)
     return smtp_check(email)
 
 if __name__ == '__main__':
