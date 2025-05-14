@@ -21,7 +21,11 @@ def send_email():
         to = data.get('to')
         subject = data.get('subject')
         body = data.get('body')
-        attachment_path = data.get('attachment_path', None)
+        attachment_path = data.get('attachment_path')
+
+        # Sanitize attachment_path
+        if not attachment_path or "none" in str(attachment_path).lower():
+            attachment_path = None
 
         app.logger.info(f"Sending email to {to} with subject '{subject}'")
 
