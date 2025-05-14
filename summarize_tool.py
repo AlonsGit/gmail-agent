@@ -38,3 +38,4 @@ if __name__ == '__main__':
     text = inputs.get("text", "")
     summary = gpt_summary(text)
     print(json.dumps({"summary": summary}))
+
