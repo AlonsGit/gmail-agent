@@ -5,7 +5,7 @@ import traceback
 from flask import Flask, request, jsonify
 from send_email import send_email_with_attachment
 from validate_email import is_valid_email
-from summarize_tool import simple_summary
+from summarize_tool import gpt_summary as simple_summary
 
 # Write GOOGLE_CREDENTIALS env content to temp file if needed
 if os.getenv("GOOGLE_CREDENTIALS"):
