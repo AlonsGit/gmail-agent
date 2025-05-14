@@ -23,8 +23,10 @@ def send_email():
         body = data.get('body')
         attachment_path = data.get('attachment_path')
 
-        # Sanitize attachment_path
-        if not attachment_path or "none" in str(attachment_path).lower():
+        # Robust check to ignore invalid attachment values
+        if attachment_path is None or str(attachment_path).strip().lower() in [
+            "", "none", "null", "no", "without", "without attached file"
+        ]:
             attachment_path = None
 
         app.logger.info(f"Sending email to {to} with subject '{subject}'")
