@@ -3,7 +3,7 @@ import json
 import smtplib
 import dns.resolver
 import socket
-import re
+from email_validator import validate_email, EmailNotValidError
 
 def smtp_check(email):
     try:
@@ -23,9 +23,13 @@ def smtp_check(email):
         return False
 
 def is_valid_email(email):
-    pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
-    if not re.match(pattern, email):
+    try:
+        # בדיקת תקינות התחביר של כתובת האימייל
+        validate_email(email)
+    except EmailNotValidError:
         return False
+
+    # בדיקת SMTP כדי לוודא שהכתובת יכולה לקבל דואר
     return smtp_check(email)
 
 if __name__ == '__main__':
