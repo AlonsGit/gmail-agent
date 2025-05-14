@@ -1,7 +1,7 @@
 import sys
 import json
 
-def gpt_like_summary(text):
+def simple_summary(text):
     if not text.strip():
         return "No content to summarize."
     # Placeholder for LLM-based summarization
@@ -10,5 +10,5 @@ def gpt_like_summary(text):
 if __name__ == '__main__':
     inputs = json.load(sys.stdin)
     text = inputs.get("text", "")
-    summary = gpt_like_summary(text)
+    summary = simple_summary(text)
     print(json.dumps({"summary": summary}))
