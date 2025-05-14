@@ -1,13 +1,12 @@
-
 import os
 import json
 import traceback
 from flask import Flask, request, jsonify
 from send_email import send_email_with_attachment
 from validate_email import is_valid_email
-from summarize_tool import gpt_summary as simple_summary
+from summarize_tool import simple_summary  # ← ייבוא מעודכן ללא GPT
 
-# Write GOOGLE_CREDENTIALS env content to temp file if needed
+# כתיבת credentials זמניים לקובץ זמני (אם מוגדר כ־env var)
 if os.getenv("GOOGLE_CREDENTIALS"):
     with open("/tmp/creds.json", "w") as f:
         f.write(os.getenv("GOOGLE_CREDENTIALS"))
@@ -23,7 +22,6 @@ def send_email():
         body = data.get('body')
         attachment_path = data.get('attachment_path')
 
-        # Robust check to ignore invalid attachment values
         if attachment_path is None or str(attachment_path).strip().lower() in [
             "", "none", "null", "no", "without", "without attached file"
         ]:
@@ -43,6 +41,7 @@ def send_email():
             return jsonify({"status": "success", "message_id": message_id})
         else:
             return jsonify({"status": "error", "message": "Failed to send email"}), 500
+
     except Exception as e:
         traceback.print_exc()
         app.logger.error(f"Error in /send_email: {str(e)}")
