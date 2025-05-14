@@ -1,3 +1,4 @@
+
 import os
 import json
 from flask import Flask, request, jsonify
@@ -14,7 +15,7 @@ app = Flask(__name__)
 
 @app.route('/send_email', methods=['POST'])
 def send_email():
-    data = request.json
+    data = request.get_json(force=True)
     to = data.get('to')
     subject = data.get('subject')
     body = data.get('body')
@@ -35,19 +36,18 @@ def send_email():
 
 @app.route('/validate_email', methods=['POST'])
 def validate_email():
-    data = request.json
+    data = request.get_json(force=True)
     email = data.get('email')
     valid = is_valid_email(email)
     return jsonify({"valid": valid})
 
 @app.route('/summarize_text', methods=['POST'])
 def summarize_text():
-    data = request.json
+    data = request.get_json(force=True)
     text = data.get('text', '')
     summary = simple_summary(text)
     return jsonify({"summary": summary})
 
-# ✅ נתיב ברירת מחדל עבור Render או בדיקת בריאות
 @app.route('/', methods=['GET'])
 def home():
     return jsonify({"message": "Email Agent API is running"}), 200
