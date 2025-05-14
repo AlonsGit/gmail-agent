@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: Gmail Agent Tools
-  version: 1.0.1
+  version: 1.0.3
 servers:
   - url: https://gmail-agent.onrender.com
 
@@ -75,8 +75,38 @@ components:
   schemas:
     SendEmailRequest:
       type: object
-      required: [to, subject, body]
+      required:
+        - to
+        - subject
+        - body
       properties:
         to:
           type: string
           description: The recipient's email address
+        subject:
+          type: string
+          description: The subject of the email
+        body:
+          type: string
+          description: The body content of the email
+        attachment_path:
+          type: string
+          description: Optional path to a file to attach
+
+    ValidateEmailRequest:
+      type: object
+      required:
+        - email
+      properties:
+        email:
+          type: string
+          description: The email address to validate
+
+    SummarizeTextRequest:
+      type: object
+      required:
+        - text
+      properties:
+        text:
+          type: string
+          description: The text to be summarized
